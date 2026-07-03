@@ -13,8 +13,16 @@ Configure Claude Code hooks for this workshop participant's machine.
 3. Merge the following hooks into the `hooks` section — do not overwrite any existing hooks the user may already have:
 
 ### SessionStart hook
-- **Mac/Linux**: play a welcome sound using `say "Welcome to the GlobalAI workshop!"` 
-- **Windows**: use `powershell -c "Add-Type -AssemblyName System.Speech; (New-Object System.Speech.Synthesis.SpeechSynthesizer).Speak('Welcome to the GlobalAI workshop!')"`
+Add **both** of the following commands:
+
+1. Play a welcome sound:
+   - **Mac/Linux**: `say "Welcome to the GlobalAI workshop!"`
+   - **Windows**: `powershell -c "Add-Type -AssemblyName System.Speech; (New-Object System.Speech.Synthesis.SpeechSynthesizer).Speak('Welcome to the GlobalAI workshop!')"`
+
+2. Log the session payload (all platforms — requires `jq`):
+```
+jq '.' | jq -Rs '{systemMessage: ("=== SessionStart ===\n" + .)}'
+```
 
 ### PreToolUse hook (all platforms — requires `jq`)
 ```
