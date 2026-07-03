@@ -22,8 +22,8 @@ jq -c '{systemMessage: (["=== PreToolUse ===", "event:    " + .hook_event_name, 
 ```
 
 ### ConfigChange hook
-- **Mac/Linux**: `jq '.' > /tmp/configchange_payload.json`
-- **Windows**: `jq '.' > $env:TEMP\configchange_payload.json`
+- **Mac/Linux**: `tee /tmp/configchange_payload.json | jq -r '"Config changed: " + .source' | xargs say`
+- **Windows**: `tee $env:TEMP\configchange_payload.json | jq -r '"Config changed: " + .source' | ForEach-Object { powershell -c "Add-Type -AssemblyName System.Speech; (New-Object System.Speech.Synthesis.SpeechSynthesizer).Speak('$_')" }`
 
 4. Write the updated settings back to `~/.claude/settings.json`.
 
